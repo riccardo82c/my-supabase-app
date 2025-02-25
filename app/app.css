@@ -1,15 +1,136 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+:root {
+  --background-primary: theme('colors.slate.100');    /* Era slate.50 */
+  --text-primary: theme('colors.slate.700');
+  --background-secondary: theme('colors.slate.200');  /* Era slate.100 */
+  --text-secondary: theme('colors.slate.500');
+  --accent-color: theme('colors.indigo.500');
+
+  --button-primary-bg: theme('colors.indigo.600');
+  --button-primary-text: theme('colors.white');
+  --button-danger-bg: theme('colors.red.600');
+  --button-danger-text: theme('colors.white');
+
+  --badge-admin-bg: theme('colors.violet.700');
+  --badge-admin-text: theme('colors.white');    /* Bianco puro */
+  --badge-user-bg: theme('colors.sky.700');
+  --badge-user-text: theme('colors.white');     /* Bianco puro */
+}
+
+[data-theme='dark'] {
+  --background-primary: theme('colors.slate.900');
+  --text-primary: theme('colors.slate.300');
+  --background-secondary: theme('colors.slate.800');
+  --text-secondary: theme('colors.slate.400');
+  --accent-color: theme('colors.indigo.400');
+
+  --button-primary-bg: theme('colors.indigo.300');
+  --button-primary-text: theme('colors.slate.900');
+  --button-danger-bg: theme('colors.red.400');
+  --button-danger-text: theme('colors.slate.900');
+
+  --badge-admin-bg: theme('colors.violet.300');
+  --badge-admin-text: theme('colors.black');    /* Nero puro */
+  --badge-user-bg: theme('colors.sky.300');
+  --badge-user-text: theme('colors.black');     /* Nero puro */
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-[var(--background-primary)] text-[var(--text-primary)] transition-colors duration-200;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+/* Base styles for common elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-[var(--text-primary)] font-semibold;
+}
+
+p,
+span,
+div {
+  @apply text-[var(--text-secondary)];
+}
+
+/* Button styles */
+.btn {
+  @apply px-4 py-2 rounded-lg cursor-pointer
+         transition-all duration-200 ease-in-out
+         shadow-sm hover:shadow-md
+         inline-flex items-center justify-center gap-2;
+}
+
+/* Button variants */
+.btn-primary {
+  @apply bg-[var(--button-primary-bg)]
+         text-[var(--button-primary-text)]
+         hover:opacity-80;
+}
+
+.btn-secondary {
+  @apply bg-[var(--background-secondary)]
+         text-[var(--text-primary)]
+         border-2 border-[var(--text-secondary)]
+         hover:bg-[var(--background-secondary)]
+         hover:brightness-90
+         transition-all duration-200;
+}
+
+.btn-danger {
+  @apply bg-[var(--button-danger-bg)]
+         text-[var(--button-danger-text)]
+         px-4 py-2 rounded-lg
+         hover:opacity-90 transition-opacity;
+}
+
+/* Card styles */
+.card {
+  @apply bg-[var(--background-secondary)]
+         rounded-lg p-4 shadow-lg;
+}
+
+/* Form styles */
+.form-input {
+  @apply bg-[var(--background-primary)]
+         text-[var(--text-primary)]
+         border border-[var(--text-secondary)]
+         rounded-lg px-4 py-2
+         focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]
+         transition-colors duration-200;
+}
+
+.form-select {
+  @apply bg-[var(--background-primary)]
+         text-[var(--text-primary)]
+         border border-[var(--text-secondary)]
+         rounded-lg px-4 py-2
+         focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]
+         transition-colors duration-200
+         appearance-none;
+}
+
+.form-label {
+  @apply block text-[var(--text-primary)] font-medium mb-2;
+}
+
+.form-group {
+  @apply mb-4;
+}
+
+.form-error {
+  @apply text-red-500 text-sm mt-1;
+}
+
+.form-actions {
+  @apply flex gap-2 mt-4;
 }
