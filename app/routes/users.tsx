@@ -2,15 +2,15 @@
 import { useLoaderData, Form, useNavigation, useActionData } from "react-router"
 import { supabase } from "~/src/lib/supabase"
 import { useState, useEffect, useRef } from "react"
-
+import { motion, AnimatePresence } from 'framer-motion'
 import formatDate from "~/src/utils/formatDateIt"
 
 import { Button } from "~/components/ui/button"
 import { Edit, Pencil, UserPlus } from 'lucide-react'
-
 import CreateForm from "~/src/components/form/user/CreateForm"
 import EditForm from "~/src/components/form/user/EditForm"
 import DeleteForm from "~/src/components/form/user/DeleteForm"
+import ThemeToggle from "~/src/components/theme_toggle/ThemeToggle"
 
 interface User {
   id: number
@@ -90,7 +90,6 @@ export default function Users() {
   useEffect(() => {
     if (navigation.state === "idle" && actionData?.ok) {
       setEditingUser(null)
-      // Reset del form di creazione
       if (createFormRef.current) {
         createFormRef.current.reset()
       }
@@ -99,64 +98,112 @@ export default function Users() {
 
   return (
     <div className="max-w-7xl mx-auto p-4">
-      <h1 className="text-3xl font-bold text-gray-50 mb-6">Users</h1>
+
+      <div className="flex w-full justify-between">
+        <h1 className="text-3xl font-bold mb-6">Users</h1>
+        <div className="fixed right-4 top-4 z-10">
+          <ThemeToggle />
+        </div>
+      </div>
+
 
       {/* Create Form */}
-      <div className="mb-8 bg-white text-gray-900 p-6 rounded-lg shadow-sm">
+      <div className="card mb-8">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <UserPlus className="w-5 h-5" />
           Add New User
         </h2>
-        <CreateForm createFormRef={createFormRef} isCreating={isCreating}></CreateForm>
+        <CreateForm createFormRef={createFormRef} isCreating={isCreating} />
       </div>
 
       {/* Users Table */}
-      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+      <div className="card">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">ID</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Username</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Role</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Created At</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200">
             {users.map((user) => (
               <tr key={user.id}>
                 {editingUser?.id === user.id ? (
                   // Edit Mode
                   <td colSpan={5} className="px-6 py-4">
-                    <EditForm user={user} isUpdating={isUpdating} setEditingUser={setEditingUser}></EditForm>
+                    <EditForm user={user} isUpdating={isUpdating} setEditingUser={setEditingUser} />
                   </td>
                 ) : (
-                  // View Mode
+                  // View Mode (with animations)
                   <>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.id}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.username}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${user.role === 'admin'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-gray-100 text-gray-800'
-                        }`}>
+                    <motion.td
+                      className="px-6 py-4 whitespace-nowrap text-sm"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {user.id}
+                    </motion.td>
+                    <motion.td
+                      className="px-6 py-4 whitespace-nowrap text-sm"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                    >
+                      {user.username}
+                    </motion.td>
+                    <motion.td
+                      className="px-6 py-4 whitespace-nowrap"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3, delay: 0.2 }}
+                    >
+                      <span
+                        className={`
+                          px-2 py-1
+                          inline-flex
+                          text-xs
+                          leading-5
+                          font-semibold
+                          rounded-full
+                          ${user.role === 'admin'
+                            ? 'bg-[var(--badge-admin-bg)] !text-[var(--badge-admin-text)]'
+                            : 'bg-[var(--badge-user-bg)] !text-[var(--badge-user-text)]'
+                          }
+                        `}
+                      >
                         {user.role}
                       </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    </motion.td>
+                    <motion.td
+                      className="px-6 py-4 whitespace-nowrap text-sm"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3, delay: 0.3 }}
+                    >
                       {formatDate(user.created_at)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    </motion.td>
+                    <motion.td
+                      className="px-6 py-4 whitespace-nowrap text-sm"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3, delay: 0.4 }}
+                    >
                       <div className="flex gap-2">
-                        <Button
+                        <motion.button
                           onClick={() => setEditingUser(user)}
-                          className="text-blue-600 hover:text-blue-900 p-2 rounded-md hover:bg-blue-50 bg-transparent"
+                          className="btn btn-primary p-2"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
                         >
                           <Pencil className="w-4 h-4" />
-                        </Button>
-                        <DeleteForm user={user}></DeleteForm>
+                        </motion.button>
+                        <DeleteForm user={user} />
                       </div>
-                    </td>
+                    </motion.td>
                   </>
                 )}
               </tr>

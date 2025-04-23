@@ -1,19 +1,12 @@
-import { Trash2 } from "lucide-react"
+import { Trash, Trash2 } from "lucide-react"
+import { useState } from "react"
 import { Form } from "react-router"
 import { Button } from "~/components/ui/button"
+import { motion } from 'framer-motion'
 
-// interface User {
-//   id: number;
-//   username: string;
-//   role: string;
-//   created_at: string;
-// }
+export default function DeleteForm({ user }: DeleteFormProps) {
+  const [isOpen, setIsOpen] = useState(false)
 
-// interface DeleteFormProps {
-//   user: User;
-// }
-
-export default function DeleteForm({user}: DeleteFormProps) {
   return (
     <Form method="post" className="inline">
       <input type="hidden" name="intent" value="delete" />

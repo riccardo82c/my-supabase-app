@@ -15,27 +15,33 @@ import { Button } from "~/components/ui/button"
 
 export default function EditForm({user, isUpdating, setEditingUser} : EditFormProps) {
   return (
-    <Form method="post" className="flex gap-4 items-end">
-      <input type="hidden" name="intent" value="update" />
+    <Form method="post" className="space-y-4">
       <input type="hidden" name="id" value={user.id} />
 
-      <div className="flex-1">
-        <label className="block text-sm font-medium text-gray-700">Username</label>
+      <div className="form-group">
+        <label htmlFor="username" className="form-label">
+          Username
+        </label>
         <input
           type="text"
+          id="username"
           name="username"
           defaultValue={user.username}
-          className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 px-3 py-2 text-gray-900"
+          className="form-input w-full"
           required
         />
       </div>
 
-      <div className="flex-1">
-        <label className="block text-sm font-medium text-gray-700">Role</label>
+      <div className="form-group">
+        <label htmlFor="role" className="form-label">
+          Role
+        </label>
         <select
+          id="role"
           name="role"
           defaultValue={user.role}
-          className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 px-3 py-2 text-gray-900"
+          className="form-select w-full"
+          required
         >
           <option value="user">User</option>
           <option value="admin">Admin</option>
@@ -45,15 +51,17 @@ export default function EditForm({user, isUpdating, setEditingUser} : EditFormPr
       <div className="flex gap-2">
         <Button
           type="submit"
+          name="intent"
+          value="update"
+          className="btn btn-primary"
           disabled={isUpdating}
-          className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 disabled:opacity-50"
         >
           {isUpdating ? 'Saving...' : 'Save'}
         </Button>
         <Button
           type="button"
           onClick={() => setEditingUser(null)}
-          className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+          className="btn btn-secondary"
         >
           Cancel
         </Button>
