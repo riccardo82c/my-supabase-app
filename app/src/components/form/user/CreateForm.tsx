@@ -1,5 +1,5 @@
 import { Form } from "react-router"
-
+import { Button } from "~/components/ui/button"
 // interface CreateFormProps {
 //   createFormRef: React.RefObject<HTMLFormElement | null>;
 //   isCreating: boolean;
@@ -41,7 +41,7 @@ export default function CreateForm({ createFormRef, isCreating } : CreateFormPro
         </select>
       </div>
 
-      <button
+      <Button
         type="submit"
         disabled={isCreating}
         className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600
@@ -49,7 +49,7 @@ export default function CreateForm({ createFormRef, isCreating } : CreateFormPro
    disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isCreating ? 'Creating...' : 'Create User'}
-      </button>
+      </Button>
     </Form>
   )
 }

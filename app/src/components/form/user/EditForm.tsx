@@ -1,6 +1,5 @@
 import { Form } from "react-router"
-import type { Dispatch, SetStateAction } from "react"
-
+import { Button } from "~/components/ui/button"
 // interface User {
 //   id: number;
 //   username: string;
@@ -44,20 +43,20 @@ export default function EditForm({user, isUpdating, setEditingUser} : EditFormPr
       </div>
 
       <div className="flex gap-2">
-        <button
+        <Button
           type="submit"
           disabled={isUpdating}
           className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 disabled:opacity-50"
         >
           {isUpdating ? 'Saving...' : 'Save'}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => setEditingUser(null)}
           className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
         >
           Cancel
-        </button>
+        </Button>
       </div>
     </Form>
   )

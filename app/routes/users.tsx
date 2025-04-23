@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react"
 
 import formatDate from "~/src/utils/formatDateIt"
 
+import { Button } from "~/components/ui/button"
 import { Edit, Pencil, UserPlus } from 'lucide-react'
 
 import CreateForm from "~/src/components/form/user/CreateForm"
@@ -17,16 +18,6 @@ interface User {
   role: string
   created_at: string
 }
-
-// function formatDate(dateString: string) {
-//   return new Date(dateString).toLocaleDateString('it-IT', {
-//     day: '2-digit',
-//     month: '2-digit',
-//     year: 'numeric',
-//     hour: '2-digit',
-//     minute: '2-digit'
-//   })
-// }
 
 export async function loader() {
   const { data, error } = await supabase
@@ -157,12 +148,12 @@ export default function Users() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <div className="flex gap-2">
-                        <button
+                        <Button
                           onClick={() => setEditingUser(user)}
-                          className="text-blue-600 hover:text-blue-900 p-2 rounded-md hover:bg-blue-50"
+                          className="text-blue-600 hover:text-blue-900 p-2 rounded-md hover:bg-blue-50 bg-transparent"
                         >
                           <Pencil className="w-4 h-4" />
-                        </button>
+                        </Button>
                         <DeleteForm user={user}></DeleteForm>
                       </div>
                     </td>
